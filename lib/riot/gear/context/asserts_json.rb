@@ -1,7 +1,7 @@
 require 'open-uri'
 
-module SmokeMonster
-  module Riot
+module Riot
+  module Gear
     module AssertsJson
 
       def asserts_json(json_path)
@@ -9,8 +9,8 @@ module SmokeMonster
           json_path(response, json_path)
         end
       end
-    end # Context
-  end # Riot
-end # SmokeMonster
+    end # AssertsJson
+  end # Gear
+end # Riot
 
-Riot::Context.instance_eval { include SmokeMonster::Riot::AssertsJson }
+Riot::Context.instance_eval { include Riot::Gear::AssertsJson }

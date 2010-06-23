@@ -1,15 +1,15 @@
 require 'open-uri'
 
-module SmokeMonster
-  module Riot
+module Riot
+  module Gear
     module AssertsStatus
 
       def asserts_status
         asserts("status code") { response.code }
       end
 
-    end # Context
-  end # Riot
-end # SmokeMonster
+    end # AssertsStatus
+  end # Gear
+end # Riot
 
-Riot::Context.instance_eval { include SmokeMonster::Riot::AssertsStatus }
+Riot::Context.instance_eval { include Riot::Gear::AssertsStatus }

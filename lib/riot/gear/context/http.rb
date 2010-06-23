@@ -1,8 +1,8 @@
 require 'open-uri'
 require 'httparty'
 
-module SmokeMonster
-  module Riot
+module Riot
+  module Gear
     module Http
 
       # Setup the scenario via a GET requst to the provided path. Feel free to include a query string
@@ -15,8 +15,8 @@ module SmokeMonster
           topic.cookies({cookie_name => cookie_values[cookie_name]})
         end
       end
-    end # Context
-  end # Riot
-end # SmokeMonster
+    end # Http
+  end # Gear
+end # Riot
 
-Riot::Context.instance_eval { include SmokeMonster::Riot::Http }
+Riot::Context.instance_eval { include Riot::Gear::Http }
