@@ -15,6 +15,21 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = [
     "README.md"
   ]
+  s.files = [
+    ".gitignore",
+     "README.md",
+     "Rakefile",
+     "VERSION",
+     "lib/riot/gear.rb",
+     "lib/riot/gear/context.rb",
+     "lib/riot/gear/context/asserts_header.rb",
+     "lib/riot/gear/context/asserts_json.rb",
+     "lib/riot/gear/context/asserts_status.rb",
+     "lib/riot/gear/context/http.rb",
+     "lib/riot/gear/middleware.rb",
+     "lib/riot/gear/middleware/riotparty.rb",
+     "riot-gear.gemspec"
+  ]
   s.homepage = %q{http://github.com/thumblemonks/riot-gear}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
