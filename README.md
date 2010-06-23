@@ -10,6 +10,8 @@ Real HTTP-based smoke testing with a real testing framework; [Riot](http://thumb
 
       asserts_status.equals(200)
       asserts_header("Content-Type").equals("application/json;charset=utf-8")
-    end # Logging into BrightTag as bgrande
+
+      # ... more stuff
+    end
 
 Lots lots more to come soon.
