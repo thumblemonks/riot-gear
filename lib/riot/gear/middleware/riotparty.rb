@@ -65,8 +65,9 @@ module Riot
       #     => "bar"
       def helper_json_path(context)
         context.helper(:json_path) do |dictionary, path|
-          path.scan(/\w+|\d+/).inject(dictionary) do |dict,key|
-            dict[key =~ /^\d+$/ ? key.to_i : key]
+          return nil if path.to_s.empty?
+          path.scan(/[^\[\].'"]+/).inject(dictionary) do |dict,key|
+            dict[key =~ /^\d+$/ ? key.to_i : key.strip]
           end
         end
       end
