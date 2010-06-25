@@ -56,12 +56,13 @@ module Riot
       #
       #     json_path(json_object, "a.b.c.d")
       #     => "foo"
-      #     json_path(json_object, "a['b'].c['d']")
+      #     json_path(json_object, "a['b'].c[d]")
       #     => "foo"
       #
-      # You can even work with array indexes.
+      # You can even work with array indexes
+      #
       #     json_object = {"a" => {"b" => "c" => ["foo", {"d" => "bar"}]}}
-      #     json_path(json_object, "a.b.c[1].d")
+      #     json_path(json_object, "a[b].c[1].d")
       #     => "bar"
       def helper_json_path(context)
         context.helper(:json_path) do |dictionary, path|
@@ -72,12 +73,17 @@ module Riot
         end
       end
 
+      # Splits up the cookies found in the Set-Cookie header. I'm sure I could use HTTParty for this somehow,
+      # but this seemed just as straightforward. You will get back a hash of the key/value pairs
+      #
+      #     {"session_cookie" => "fooberries", "path" => "/", ...}
+      #
+      # This is not ideal yet
       def helper_cookie_value(context)
         context.helper(:cookie_values) do
-          response.header["set-cookie"].split(';').inject({}) do |hash, key_val|
-            key, val = key_val.strip.split('=')
-            hash[key] = val
-            hash
+          response.header["set-cookie"].split("\n").inject({}) do |jar, cookie_str|
+            (name, value), *bits = cookie_str.split(/; ?/).map { |bit| bit.split('=') }
+            jar.merge!(name => bits.inject({"value" => value}) { |h, (k,v)| h.merge!(k => v) })
           end
         end
       end
