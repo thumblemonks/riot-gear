@@ -34,6 +34,7 @@ module Riot
       # Basically, we're just passing standard HTTParty setup methods onto situation via hookups. Except
       # for the important action methods.
       def proxy_httparty_hookups(context)
+        puts proxy_methods
         proxy_methods.each do |httparty_method|
           (class << context; self; end).__send__(:define_method, httparty_method) do |*args|
             hookup do
@@ -74,11 +75,14 @@ module Riot
       end
 
       # Splits up the cookies found in the Set-Cookie header. I'm sure I could use HTTParty for this somehow,
-      # but this seemed just as straightforward. You will get back a hash of the key/value pairs
+      # but this seemed just as straightforward. You will get back a hash of the
+      # {cookie-name => cookie-bits} pairs
       #
-      #     {"session_cookie" => "fooberries", "path" => "/", ...}
-      #
-      # This is not ideal yet
+      #     {
+      #       "session_cookie" => {"value => "fooberries", "path" => "/", ...},
+      #       "stupid_marketing_tricks" => {"value" => "personal-information", ...},
+      #       ...
+      #     }
       def helper_cookie_value(context)
         context.helper(:cookie_values) do
           response.header["set-cookie"].split("\n").inject({}) do |jar, cookie_str|
