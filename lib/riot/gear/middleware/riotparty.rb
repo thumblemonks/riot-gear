@@ -27,14 +27,17 @@ module Riot
         context.helper(:response) { @smoke_response }
       end # setup_faux_class
 
+      def action_methods
+        %w[get post put delete head options]
+      end
+
       def proxy_methods
-        HTTParty::ClassMethods.instance_methods - %w[get post put delete head options]
+        HTTParty::ClassMethods.instance_methods - action_methods - ["default_options"]
       end
 
       # Basically, we're just passing standard HTTParty setup methods onto situation via hookups. Except
       # for the important action methods.
       def proxy_httparty_hookups(context)
-        puts proxy_methods
         proxy_methods.each do |httparty_method|
           (class << context; self; end).__send__(:define_method, httparty_method) do |*args|
             hookup do
