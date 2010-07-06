@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{riot-gear}
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Justin 'Gus' Knowlden"]
-  s.date = %q{2010-06-24}
+  s.date = %q{2010-07-06}
   s.description = %q{Riot + HTTParty smoke testing framework. You'd use it for integration testing with real HTTP requests and responses}
   s.email = %q{gus@gusg.us}
   s.extra_rdoc_files = [
@@ -29,7 +29,10 @@ Gem::Specification.new do |s|
      "lib/riot/gear/middleware.rb",
      "lib/riot/gear/middleware/riotparty.rb",
      "riot-gear.gemspec",
+     "test/helpers/cookie_values_test.rb",
      "test/helpers/json_path_test.rb",
+     "test/riotparty_proxy_methods_test.rb",
+     "test/setting_up_gear_context_test.rb",
      "test/teststrap.rb"
   ]
   s.homepage = %q{http://github.com/thumblemonks/riot-gear}
@@ -38,7 +41,10 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{Riot + HTTParty smoke testing framework}
   s.test_files = [
-    "test/helpers/json_path_test.rb",
+    "test/helpers/cookie_values_test.rb",
+     "test/helpers/json_path_test.rb",
+     "test/riotparty_proxy_methods_test.rb",
+     "test/setting_up_gear_context_test.rb",
      "test/teststrap.rb"
   ]
 
