@@ -1,7 +1,10 @@
+require 'pathname'
+
+$:.unshift(Pathname(__FILE__).dirname + ".." + "lib")
+
 require 'rubygems'
 require 'riot'
 require 'webmock'
-require 'pathname'
 
 require 'riot/gear'
 
