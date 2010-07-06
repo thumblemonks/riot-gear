@@ -1,6 +1,6 @@
 require 'pathname'
 
-$:.unshift (Pathname(__FILE__).dirname + ".." + "lib").to_s
+$:.unshift((Pathname(__FILE__).dirname + ".." + "lib").to_s)
 
 require 'rubygems'
 require 'riot'
