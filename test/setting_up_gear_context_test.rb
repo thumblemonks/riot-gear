@@ -7,15 +7,9 @@ context "Two distinct gear contexts" do
     situation
   end
 
-  setup do
-    gear_up.topic
-  end
-
+  setup { gear_up.topic }
   asserts_topic.kind_of(Class)
-
-  asserts("equivalence of the topic for similar contexts") do
-    topic == gear_up.topic
-  end.not!
+  asserts("equivalence of the topic for similar contexts") { topic == gear_up.topic }.not!
 end # Setting up a gear context
 
 context "Gear context and its inner context" do
@@ -25,10 +19,7 @@ context "Gear context and its inner context" do
     situation
   end
 
-  setup do
-    situation = Riot::Situation.new
-    Riot::Context.new("A") {}
-  end
+  setup { Riot::Context.new("A") {} }
 
   asserts("equivalence of the topic for similar contexts") do
     parent_topic = local_run(topic).topic
