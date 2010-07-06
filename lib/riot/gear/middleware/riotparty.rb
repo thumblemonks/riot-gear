@@ -28,11 +28,12 @@ module Riot
       end # setup_faux_class
 
       def action_methods
-        %w[get post put delete head options]
+        [:get, :post, :put, :delete, :head, :options]
       end
 
       def proxy_methods
-        HTTParty::ClassMethods.instance_methods - action_methods - ["default_options"]
+        methods = HTTParty::ClassMethods.instance_methods.map { |m| m.to_s.to_sym }
+        methods - action_methods - [:default_options]
       end
 
       # Basically, we're just passing standard HTTParty setup methods onto situation via hookups. Except
