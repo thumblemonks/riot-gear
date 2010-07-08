@@ -12,7 +12,9 @@ module Riot
 
       def persist_cookie(cookie_name)
         hookup do
-          topic.cookies({cookie_name => cookie_values[cookie_name]})
+          if cookie_value = cookie_values[cookie_name]
+            topic.cookies({cookie_name => cookie_value["value"]})
+          end
         end
       end
     end # Http
