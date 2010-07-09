@@ -10,6 +10,11 @@ module Riot
         hookup { @smoke_response = topic.get(*args) }
       end
 
+      # Setup the scenario via a POST requst to the provided path. Feel free to include a :body option
+      def post(*args)
+        hookup { @smoke_response = topic.post(*args) }
+      end
+
       def persist_cookie(cookie_name)
         hookup do
           if cookie_value = cookie_values[cookie_name]
