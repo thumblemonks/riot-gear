@@ -5,14 +5,20 @@ module Riot
   module Gear
     module Http
 
-      # Setup the scenario via a GET requst to the provided path. Feel free to include a query string
       def get(*args)
         hookup { @smoke_response = topic.get(*args) }
       end
 
-      # Setup the scenario via a POST requst to the provided path. Feel free to include a :body option
       def post(*args)
         hookup { @smoke_response = topic.post(*args) }
+      end
+
+      def put(*args)
+        hookup { @smoke_response = topic.put(*args) }
+      end
+
+      def delete(*args)
+        hookup { @smoke_response = topic.delete(*args) }
       end
 
       def persist_cookie(cookie_name)

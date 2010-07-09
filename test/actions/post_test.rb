@@ -45,4 +45,4 @@ context "Sending a POST request" do
     end # with params
   end # with a base-uri
 
-end # Sending a GET request
+end # Sending a POST request
