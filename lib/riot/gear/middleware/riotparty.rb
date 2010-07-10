@@ -8,6 +8,7 @@ module Riot
       def call(context)
         setup_faux_class(context)
         setup_helpers(context)
+        proxy_action_methods(context)
         proxy_httparty_hookups(context)
         middleware.call(context)
       end
@@ -27,26 +28,40 @@ module Riot
         context.helper(:response) { @smoke_response }
       end # setup_faux_class
 
-      def action_methods
-        [:get, :post, :put, :delete, :head, :options]
+      #
+      # Method proxying. This is the meat of the DSL.
+
+      def actionable_methods; [:get, :post, :put, :delete, :head]; end
+
+      def proxy_action_methods(context)
+        proxy_class_methods_to_context(context, actionable_methods) do |situation, result|
+          situation.instance_eval { @smoke_response = result }
+        end
       end
 
-      def proxy_methods
+      def proxiable_methods
         methods = HTTParty::ClassMethods.instance_methods.map { |m| m.to_s.to_sym }
-        methods - action_methods - [:default_options]
+        methods - actionable_methods - [:options, :default_options]
       end
 
-      # Basically, we're just passing standard HTTParty setup methods onto situation via hookups. Except
-      # for the important action methods.
       def proxy_httparty_hookups(context)
-        proxy_methods.each do |httparty_method|
-          (class << context; self; end).__send__(:define_method, httparty_method) do |*args|
+        proxy_class_methods_to_context(context, proxiable_methods)
+      end
+
+      # Basically, we're just passing standard HTTParty setup methods onto situation via hookups
+      def proxy_class_methods_to_context(context, methods, &proxy_block)
+        methods.each do |method_name|
+          (class << context; self; end).__send__(:define_method, method_name) do |*args|
             hookup do
-              topic.__send__(httparty_method, *args)
+              result = topic.__send__(method_name, *args)
+              yield(self, result) if proxy_block
             end
-          end
-        end # proxy_methods.each
-      end # proxy_httparty_hookups
+          end # class << context
+        end # methods.each
+      end # proxy_class_methods_to_context
+
+      #
+      # Helpful helpers
 
       def setup_helpers(context)
         helper_json_path(context)

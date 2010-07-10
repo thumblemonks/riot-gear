@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{riot-gear}
-  s.version = "0.0.5"
+  s.version = "0.0.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Justin 'Gus' Knowlden"]
-  s.date = %q{2010-07-08}
+  s.date = %q{2010-07-09}
   s.description = %q{Riot + HTTParty smoke testing framework. You'd use it for integration testing with real HTTP requests and responses}
   s.email = %q{gus@gusg.us}
   s.extra_rdoc_files = [
@@ -25,11 +25,14 @@ Gem::Specification.new do |s|
      "lib/riot/gear/context/asserts_header.rb",
      "lib/riot/gear/context/asserts_json.rb",
      "lib/riot/gear/context/asserts_status.rb",
-     "lib/riot/gear/context/http.rb",
+     "lib/riot/gear/context/persist_cookie.rb",
      "lib/riot/gear/middleware.rb",
      "lib/riot/gear/middleware/riotparty.rb",
      "riot-gear.gemspec",
+     "test/actions/delete_test.rb",
      "test/actions/get_test.rb",
+     "test/actions/post_test.rb",
+     "test/actions/put_test.rb",
      "test/helpers/cookie_values_test.rb",
      "test/helpers/json_path_test.rb",
      "test/riotparty_proxy_methods_test.rb",
@@ -42,7 +45,10 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Riot + HTTParty smoke testing framework}
   s.test_files = [
-    "test/actions/get_test.rb",
+    "test/actions/delete_test.rb",
+     "test/actions/get_test.rb",
+     "test/actions/post_test.rb",
+     "test/actions/put_test.rb",
      "test/helpers/cookie_values_test.rb",
      "test/helpers/json_path_test.rb",
      "test/riotparty_proxy_methods_test.rb",
