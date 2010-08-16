@@ -3,3 +3,4 @@
 *.tmproj
 pkg/*
 .rvmrc
+*.swp

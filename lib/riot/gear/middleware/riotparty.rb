@@ -70,7 +70,7 @@ module Riot
 
       # Maps a JSON string to a Hash tree. For instance, give this hash:
       #
-      #     json_object = {"a" => {"b" => "c" => {"d" => "foo"}}}
+      #     json_object = {"a" => {"b" => {"c" => {"d" => "foo"}}}}
       #
       # You could retrieve the value of 'd' via JSON notation in any of the following ways:
       #
