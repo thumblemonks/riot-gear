@@ -40,7 +40,7 @@ begin
     gem.authors = ["Justin 'Gus' Knowlden"]
     gem.add_dependency 'riot'
     gem.add_dependency 'httparty'
-    gem.add_development_dependency 'webmock'
+    gem.add_development_dependency 'webmock', ">=1.6.1"
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError

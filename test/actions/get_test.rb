@@ -1,7 +1,7 @@
 require 'teststrap'
 
 context "Sending a GET request" do
-  teardown { reset_webmock }
+  # teardown { reset_webmock }
 
   asserts("not defining a base_uri") do
     Riot::Context.new("foo") { get "/foo" }.run(Riot::SilentReporter.new)

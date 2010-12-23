@@ -6,7 +6,8 @@ require 'rubygems'
 require 'json'
 require 'riot'
 require 'webmock'
-Riot::Situation.instance_eval { include WebMock }
+
+Riot::Situation.instance_eval { include WebMock::API }
 
 require 'riot/gear'
 

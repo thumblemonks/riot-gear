@@ -56,4 +56,15 @@ context "The json_path helper" do
       json_path({"a" => [ {"b" => "nil"}, {"c" => ["foo", "bar"]} ]}, '[a][1].c[0]')
     end.equals("foo")
   end # for mix of hash and index based-lookups
+
+  context "when response is an array" do
+    asserts("path of existing '[1]'") do
+      json_path(["foo", "bar"], '[1]')
+    end.equals("bar")
+
+    asserts("path of existing '[1].zoot[a]'") do
+      json_path(["foo", {"zoot" => {"a" => "bar"}}], '[1].zoot[a]')
+    end.equals("bar")
+  end # when response is an array
+
 end # The json_path helper
