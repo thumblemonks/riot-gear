@@ -26,6 +26,9 @@ module Riot
 
       # Only cluttering anonymous classes with HTTParty stuff. Keeps each context safe from collision ... in
       # theory.
+      #
+      # @param [Riot::Context] context the context to create the setup for
+      # @todo Fix this so that settings like +base_uri+ can be inherited
       def setup_faux_class(context)
         context.setup(true) do
           Class.new do

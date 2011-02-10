@@ -10,7 +10,7 @@ module Riot
       # you will probably want to pass along whatever the session cookie was to the next request in the test.
       #
       #   context "Get new messages" do
-      #     base_uri "http://example.com/"
+      #     base_uri "http://example.com"
       #     post "/session?email=foo@bar.baz&password=beepboopbop"
       #
       #     persist_cookie("example_session")
