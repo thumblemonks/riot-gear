@@ -1,0 +1,6 @@
+-r README.markdown
+--protected
+--no-private
+-
+CHANGELOG
+MIT-LICENSE

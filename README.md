@@ -15,3 +15,7 @@ Real HTTP-based smoke testing with a real testing framework; [Riot](http://thumb
     end
 
 Lots lots more to come soon.
+
+## License
+
+Riot Gear is released under the MIT license. See {file:MIT-LICENSE}.

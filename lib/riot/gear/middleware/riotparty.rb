@@ -76,7 +76,7 @@ module Riot
       #
       #     json_path(json_object, "a.b.c.d")
       #     => "foo"
-      #     json_path(json_object, "a['b'].c[d]")
+      #     json_path(json_object, "a['b'].c['d']")
       #     => "foo"
       #
       # You can even work with array indexes
