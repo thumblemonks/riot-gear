@@ -15,4 +15,8 @@ context "The asserts_json macro" do
     value.map { |string, number| number }
   end.equals([1,2])
   
+  asserts_json("c", "custom assert") do |value|
+    value.map { |string, number| number }
+  end.equals([1,2])
+  
 end # The asserts_json macro
