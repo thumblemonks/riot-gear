@@ -27,8 +27,8 @@ module Riot
       # @param [String] json_string a JSON looking path
       # @param [lambda] &handler an optional block for filtering the actual value
       # @return [Riot::Assertion] an assertion block that macros can be applied to
-      def asserts_json(json_string, &handler)
-        asserts("value from body as json:#{json_string}") do
+      def asserts_json(json_string, name = '', &handler)
+        asserts("value from body as json:#{json_string} #{name}") do
           value = json_path(response, json_string)
           handler ? handler.call(value) : value
         end
