@@ -6,4 +6,5 @@ pkg/*
 *.swp
 .watchr
 .yardoc
+Gemfile.lock
 
