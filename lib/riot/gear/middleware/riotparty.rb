@@ -49,7 +49,7 @@ module Riot
       #
       # @param [Riot::Context] context the context to add the helper to
       def proxy_action_methods(context)
-        proxy_class_methods_to_context(context, actionable_methods) do |situation, result|
+        proxy_action_methods_to_context(context, actionable_methods) do |situation, result|
           situation.instance_eval { @smoke_response = result }
         end
       end
@@ -63,26 +63,42 @@ module Riot
         methods - actionable_methods - [:options, :default_options]
       end
 
-      # Bind the set of proxiable, non-action methods to a given context.
+      # Bind the set of proxiable (non-action) methods to a given context.
       #
       # @param [Riot::Context] context the context to add the helper to
       def proxy_httparty_hookups(context)
-        proxy_class_methods_to_context(context, proxiable_methods)
+        proxy_config_methods_to_context(context, proxiable_methods)
       end
 
       # Basically, we're just passing standard HTTParty setup methods onto situation via hookups. These
-      # hookups - so long as the topic hasn't changed yet - around bound to an anonymous class that has
+      # hookups - so long as the topic hasn't changed yet - are bound to an anonymous class that has
       # HTTParty included to it.
-      def proxy_class_methods_to_context(context, methods, &proxy_block)
+      def proxy_action_methods_to_context(context, methods, &callback)
+        context_eigen = (class << context; self; end)
         methods.each do |method_name|
-          (class << context; self; end).__send__(:define_method, method_name) do |*args|
+          context_eigen.__send__(:define_method, method_name) do |*args, &settings_block|
             hookup do
-              result = topic.__send__(method_name, *args)
-              yield(self, result) if proxy_block
+              if settings_block
+                options = settings_block.call
+                path = options.delete(:path)
+              else
+                path, options = *args
+              end
+              result = topic.__send__(method_name, path, options || {})
+              callback.call(self, result) if callback
             end
-          end # class << context
+          end
         end # methods.each
-      end # proxy_class_methods_to_context
+      end
+
+      def proxy_config_methods_to_context(context, methods)
+        context_eigen = (class << context; self; end)
+        methods.each do |method_name|
+          context_eigen.__send__(:define_method, method_name) do |*args|
+            hookup { topic.__send__(method_name, *args) }
+          end
+        end # methods.each
+      end
 
       #
       # Helpful helpers

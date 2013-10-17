@@ -51,7 +51,7 @@ context "A Riot Gear context" do
 
   asserts("providing an invalid format") do
     topic.format :boogers
-  end.raises(HTTParty::UnsupportedFormat, "':boogers' Must be one of: html, json, plain, xml, yaml")
+  end.raises(HTTParty::UnsupportedFormat, "':boogers' Must be one of: html, json, plain, xml")
 
   debug_output StringIO.new
   asserts("default options for debug_output") do

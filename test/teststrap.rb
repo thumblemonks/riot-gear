@@ -7,6 +7,8 @@ require 'json'
 require 'riot'
 require 'webmock'
 
+Riot.dots if ENV["RIOT_FORMAT"] == "dots"
+
 Riot::Situation.instance_eval { include WebMock::API }
 
 require 'riot/gear'
