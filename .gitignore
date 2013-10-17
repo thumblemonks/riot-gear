@@ -7,4 +7,5 @@ pkg/*
 .watchr
 .yardoc
 Gemfile.lock
+*.gem
 

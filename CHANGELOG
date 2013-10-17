@@ -1,7 +1,39 @@
-== master
+# @markup markdown
 
-==== [jaknowlden] Tons of documentation
+# 0.0.9
 
-== 0.0.8 and before
+* get, post, put, delete can have responses saved for use in other requests within the same (or nested) context [jaknowlden]
+
+```ruby
+context GoNuts do
+  post(:the_new_nut) do
+    { :path => "/make/some", :body => "..." }
+  end
+
+  get do
+    { :path => "/get/some/#{response(:the_new_nut)["id"]}" }
+  end
+end
+```
+
+The last get, post, put, or delete in the context will still be the one used for assertions.
+
+* get, post, put, delete can take a block that expects a settings hash to be returned (with a path) [jaknowlden]
+
+```ruby
+context GoNuts do
+  post do
+    { :path => "/make/some", :body => "..." }
+  end
+
+  get do
+    { :path => "/get/some", :query => { ... } }
+  end
+end
+```
+
+* tons of documentation [jaknowlden]
+
+# 0.0.8 and before
 
 See the commit log: http://github.com/thumblemonks/riot-gear/commits/master
