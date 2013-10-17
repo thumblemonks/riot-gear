@@ -2,16 +2,20 @@ require 'teststrap'
 require 'ostruct'
 
 context "The cookie_values helper" do
-  helper(:build_response) do |cookie_parts|
-    OpenStruct.new( {:header => {"set-cookie" => cookie_parts.join("\n")}} )
-  end
-
   hookup do
-    @smoke_response = build_response([
+    cookies = [
       "foo=12345; path=/; expires=never-ever;",
       "goo=jam; path=/blue; expires=sometime-soon;",
-    ])
+    ]
+    stub_request(:get, 'http://foo/tossed-cookies').
+      to_return({
+        :status => 200,
+        :headers => { "Set-Cookie" => cookies.join("\n") },
+        :body => ""
+      })
   end
+
+  get "http://foo/tossed-cookies"
 
   asserts("non-existent bar cookie") { cookie_values["bar"] }.nil
 

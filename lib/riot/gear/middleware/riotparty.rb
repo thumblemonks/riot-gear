@@ -31,28 +31,23 @@ module Riot
       # @todo Fix this so that settings like +base_uri+ can be inherited
       def setup_faux_class(context)
         context.setup(true) do
+          @saved_responses = {}
+
           Class.new do
             include HTTParty
             # debug_output $stderr
           end
         end
 
-        context.helper(:response) { @smoke_response }
+        context.helper(:response) do |name=nil|
+          @saved_responses[name] || @smoke_response
+        end
       end # setup_faux_class
 
       # Returns the list of methods that do something; like make a network call.
       #
       # @return [Array<Symbol>]
       def actionable_methods; [:get, :post, :put, :delete, :head]; end
-
-      # Bind the set of actionable methods to a given context.
-      #
-      # @param [Riot::Context] context the context to add the helper to
-      def proxy_action_methods(context)
-        proxy_action_methods_to_context(context, actionable_methods) do |situation, result|
-          situation.instance_eval { @smoke_response = result }
-        end
-      end
 
       # Returns the list of methods that configure actionable HTTParty methods. The {HTTParty.options} and
       # {HTTParty.default_options} methods are explicitly excluded from this list
@@ -63,37 +58,55 @@ module Riot
         methods - actionable_methods - [:options, :default_options]
       end
 
-      # Bind the set of proxiable (non-action) methods to a given context.
+      # Bind the set of actionable methods to a given context.
       #
-      # @param [Riot::Context] context the context to add the helper to
-      def proxy_httparty_hookups(context)
-        proxy_config_methods_to_context(context, proxiable_methods)
-      end
-
       # Basically, we're just passing standard HTTParty setup methods onto situation via hookups. These
       # hookups - so long as the topic hasn't changed yet - are bound to an anonymous class that has
-      # HTTParty included to it.
-      def proxy_action_methods_to_context(context, methods, &callback)
+      # HTTParty included to it. Meaning, this is how you call get, post, put, delete from within a
+      # test.
+      #
+      # There are couple of different forms for these actions. As you would expect, there's:
+      #
+      #   get "/path", :query => {...}, ...
+      #
+      # But you can also record the response for use later in the test:
+      #
+      #   post(:new_thing) do
+      #     { :path => "/things", :body => ... }
+      #   end
+      #
+      #   get do # this response will be used for assertions since it's last
+      #     { :path => "/things/#{response(:new_thing).id}/settings" }
+      #   end
+      #
+      # @param [Riot::Context] context the context to add the helper to
+      def proxy_action_methods(context)
         context_eigen = (class << context; self; end)
-        methods.each do |method_name|
+        actionable_methods.each do |method_name|
           context_eigen.__send__(:define_method, method_name) do |*args, &settings_block|
             hookup do
               if settings_block
-                options = settings_block.call
-                path = options.delete(:path)
+                name = args.first
+                options = instance_eval(&settings_block)
+                path = options.delete(:path) || "/"
               else
+                name = nil
                 path, options = *args
               end
               result = topic.__send__(method_name, path, options || {})
-              callback.call(self, result) if callback
+              @saved_responses[name] = result
+              @smoke_response = result # TODO remove this after it's certain no usages in the wild
             end
           end
         end # methods.each
       end
 
-      def proxy_config_methods_to_context(context, methods)
+      # Bind the set of proxiable (non-action) methods to a given context.
+      #
+      # @param [Riot::Context] context the context to add the helper to
+      def proxy_httparty_hookups(context)
         context_eigen = (class << context; self; end)
-        methods.each do |method_name|
+        proxiable_methods.each do |method_name|
           context_eigen.__send__(:define_method, method_name) do |*args|
             hookup { topic.__send__(method_name, *args) }
           end

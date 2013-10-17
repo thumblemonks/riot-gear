@@ -1,7 +1,7 @@
 require 'teststrap'
 
 context "The asserts_json macro" do
-  
+
   helper(:response) do
     {
       "a" => {"b" => "foo"},
@@ -14,5 +14,5 @@ context "The asserts_json macro" do
   asserts_json("c") do |value|
     value.map { |string, number| number }
   end.equals([1,2])
-  
+
 end # The asserts_json macro
