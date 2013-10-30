@@ -3,6 +3,7 @@ require 'pathname'
 $:.unshift((Pathname(__FILE__).dirname + ".." + "lib").to_s)
 
 require 'rubygems'
+require 'bundler/setup'
 require 'json'
 require 'riot'
 require 'webmock'

@@ -17,7 +17,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'riot', '>=0.12.6'
   s.add_dependency 'httparty', '>=0.12.0'
-
-  s.add_development_dependency "webmock", ">=1.15.0"
 end
 
