@@ -1,5 +1,27 @@
 # @markup markdown
 
+# 0.0.10
+
+* Defines a new setup block called `once`. Useful for running a single block before assertions, but only inside the context it was defined in [jaknowlden]
+
+```ruby
+context ThingsMaker do
+  once do
+    topic.post "/things/make", :query => { :name => "Jacques" }
+  end
+
+  format :json
+  get "/things/1"
+
+  asserts_json("name").equals("Jacques")
+
+  context "makes no more things" do
+    get "/things/2"
+    asserts_status(404) # becuase the post didn't run again ... see ... yeah
+  end
+end
+```
+
 # 0.0.9
 
 * get, post, put, delete can have responses saved for use in other requests within the same (or nested) context [jaknowlden]
