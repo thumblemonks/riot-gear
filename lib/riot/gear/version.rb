@@ -1,6 +1,6 @@
 module Riot
   module Gear
-    VERSION = "0.10.0"
+    VERSION = "0.0.10"
   end
 end
 
