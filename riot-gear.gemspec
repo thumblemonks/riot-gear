@@ -13,9 +13,9 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n") 
   s.homepage      = %q{http://github.com/thumblemonks/riot-gear}
   s.require_paths = ["lib"]
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.test_files    = `git ls-files -- test/*`.split("\n")
 
-  s.add_dependency 'riot', '>=0.12.5'
-  s.add_dependency 'httparty', '>=0.6.0'
+  s.add_dependency 'riot', '>=0.12.6'
+  s.add_dependency 'httparty', '>=0.12.0'
 end
 

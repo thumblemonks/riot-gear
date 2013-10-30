@@ -74,10 +74,13 @@ context "A Riot Gear context" do
   end.raises(HTTParty::UnsupportedFormat, "':json' Must be one of: nothing")
 
   context "with a custom parser that supports a provided format" do
-    parser(OpenStruct.new(:supports_format? => true))
+    HappyPartyParser = Class.new do
+      def supports_format?(fmt) true; end
+    end
 
+    parser(HappyPartyParser.new)
     setup { topic.default_options[:parser] }
-    asserts_topic.kind_of(OpenStruct)
+    asserts_topic.kind_of(HappyPartyParser)
   end # with a custom parser that supports a provided format
 
   default_timeout 100000
