@@ -81,8 +81,10 @@ private
   def proxy_action_methods(context)
     context_eigen = (class << context; self; end)
     actionable_methods.each do |method_name|
+
       context_eigen.__send__(:define_method, method_name) do |*args, &settings_block|
-        hookup do
+        #hookup do
+        anything do
           if settings_block
             name = args.first
             options = instance_eval(&settings_block)
@@ -91,13 +93,12 @@ private
             name = nil
             path, options = *args
           end
-          #debug_start = Time.now
           result = topic.__send__(method_name, path, options || {})
-          #puts "TIME #{(Time.now - debug_start) * 1000.0}ms #{topic.base_uri}#{path}"
           @saved_responses[name] = result
           @smoke_response = result # TODO remove this after it's certain no usages in the wild
         end
       end
+
     end # methods.each
   end
 
