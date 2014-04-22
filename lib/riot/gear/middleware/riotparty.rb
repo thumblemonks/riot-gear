@@ -45,15 +45,15 @@ private
   # Returns the list of methods that do something; like make a network call.
   #
   # @return [Array<Symbol>]
-  def actionable_methods; [:get, :post, :put, :delete, :head]; end
+  def actionable_methods; [:get, :post, :put, :delete, :head, :options]; end
 
-  # Returns the list of methods that configure actionable HTTParty methods. The {HTTParty.options} and
-  # {HTTParty.default_options} methods are explicitly excluded from this list
+  # Returns the list of methods that configure actionable HTTParty methods. The
+  # {HTTParty.default_options} method is explicitly excluded from this list
   #
   # @return [Array<Symbol>]
   def proxiable_methods
     methods = HTTParty::ClassMethods.instance_methods.map { |m| m.to_s.to_sym }
-    methods - actionable_methods - [:options, :default_options]
+    methods - actionable_methods - [:default_options]
   end
 
   # Bind the set of actionable methods to a given context.
