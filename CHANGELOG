@@ -1,5 +1,9 @@
 # @markup markdown
 
+# 0.0.12
+
+* Allow OPTIONS HTTP calls [rquinlivan]
+
 # 0.0.10
 
 * Defines a new setup block called `once`. Useful for running a single block before assertions, but only inside the context it was defined in [jaknowlden]
@@ -17,7 +21,7 @@ context ThingsMaker do
 
   context "makes no more things" do
     get "/things/2"
-    asserts_status(404) # becuase the post didn't run again ... see ... yeah
+    asserts_status(404) # because the post didn't run again ... see ... yeah
   end
 end
 ```
