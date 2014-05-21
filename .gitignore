@@ -3,6 +3,8 @@
 *.tmproj
 pkg/*
 .rvmrc
+.ruby-version
+.ruby-gemset
 *.swp
 .watchr
 .yardoc

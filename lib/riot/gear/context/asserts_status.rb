@@ -4,14 +4,15 @@ module Riot
   module Gear
     module AssertsStatus
 
-      # Generates an assertion that retrieves the status code from the last response. The statuc code will
-      # be an integer.
+      # Generates an assertion that retrieves the status code from the last response. If a response
+      # name is provided, that named response will be used instead. The status code will be an integer.
       #
       #   asserts_status.equals(200)
       #
+      # @param [String,Symbol] response_name Name of response to check status code of
       # @return [Riot::Assertion] an assertion block that macros can be applied to
-      def asserts_status
-        asserts("status code") { response.code }
+      def asserts_status(response_name=nil)
+        asserts("status code") { response(response_name).code }
       end
 
     end # AssertsStatus

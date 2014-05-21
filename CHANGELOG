@@ -1,5 +1,9 @@
 # @markup markdown
 
+# 0.0.13
+
+* Allow `asserts_status` to inspect named responses [jaknowlden]
+
 # 0.0.12
 
 * Allow OPTIONS HTTP calls [rquinlivan]
