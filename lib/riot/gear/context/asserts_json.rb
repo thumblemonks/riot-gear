@@ -34,6 +34,36 @@ module Riot
         end
       end
 
+      # Generates an denies that based on the value returned from passing the JSON path to the json_path
+      # helper. If a handler block is provided, that block will be called with the value and the response
+      # from the block will be used as the actual in the denies test.
+      #
+      #   context "testing a hash" do
+      #     setup do
+      #       {"a" => {"b" => {"c" => {"d" => "foo"}}}}
+      #     end
+      #
+      #     denies_json("a.b.c.d").equals("bar")
+      #     denies_json("a['b'].c['d']").equals("bar")
+      #
+      #     denies_json("a.b") do |value|
+      #       value["c"]
+      #     end.equals({"d" => "bar"})
+      #  end
+      #
+      # This is useful for testing actual JSON responses from some service that are converted to a hash by
+      # HTTParty.
+      #
+      # @param [String] json_string a JSON looking path
+      # @param [lambda] &handler an optional block for filtering the actual value
+      # @return [Riot::Assertion] an denies block that macros can be applied to
+      def denies_json(json_string, &handler)
+        denies("value from body as json:#{json_string}") do
+          value = json_path(response, json_string)
+          handler ? handler.call(value) : value
+        end
+      end
+
     end # AssertsJson
   end # Gear
 end # Riot
