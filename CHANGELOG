@@ -1,5 +1,9 @@
 # @markup markdown
 
+# 0.0.15
+
+* Allow PATCH HTTP calls [zrivest]
+
 # 0.0.14
 
 * Allow `denies_json` to deny a string in the reponse json
