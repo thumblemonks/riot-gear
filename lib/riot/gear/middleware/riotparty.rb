@@ -1,10 +1,9 @@
 require 'httparty'
-
 # Here we prepare a {Riot::Context} to have HTTParty bound to it. Basically, this means that you can
 # use HTTParty within a context the same way you would inside any class or you would normally use it in.
 # Anything you can do with HTTParty, you can do within a context ... and then you can test it :)
 #
-# Great pains are made to ensure that the HTTParty setup bound to one context does not interfere setup 
+# Great pains are made to ensure that the HTTParty setup bound to one context does not interfere setup
 # bound to another context.
 class Riot::Gear::RiotPartyMiddleware < ::Riot::ContextMiddleware
   register
@@ -45,7 +44,7 @@ private
   # Returns the list of methods that do something; like make a network call.
   #
   # @return [Array<Symbol>]
-  def actionable_methods; [:get, :post, :put, :delete, :head, :options]; end
+  def actionable_methods; [:get, :post, :put, :patch, :delete, :head, :options]; end
 
   # Returns the list of methods that configure actionable HTTParty methods. The
   # {HTTParty.default_options} method is explicitly excluded from this list
