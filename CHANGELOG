@@ -1,5 +1,21 @@
 # @markup markdown
 
+# 0.0.15
+
+* Allow PATCH HTTP calls [zrivest]
+
+# 0.0.14
+
+* Allow `denies_json` to deny a string in the reponse json
+
+# 0.0.13
+
+* Allow `asserts_status` to inspect named responses [jaknowlden]
+
+# 0.0.12
+
+* Allow OPTIONS HTTP calls [rquinlivan]
+
 # 0.0.10
 
 * Defines a new setup block called `once`. Useful for running a single block before assertions, but only inside the context it was defined in [jaknowlden]
@@ -17,7 +33,7 @@ context ThingsMaker do
 
   context "makes no more things" do
     get "/things/2"
-    asserts_status(404) # becuase the post didn't run again ... see ... yeah
+    asserts_status(404) # because the post didn't run again ... see ... yeah
   end
 end
 ```
