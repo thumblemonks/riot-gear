@@ -161,7 +161,8 @@ private
   # @param [Riot::Context] context the context to add the helper to
   def helper_cookie_value(context)
     context.helper(:cookie_values) do
-      response.header["set-cookie"].split("\n").inject({}) do |jar, cookie_str|
+      set_cookie = response.header["set-cookie"] || ""
+      set_cookie.split("\n").inject({}) do |jar, cookie_str|
         (name, value), *bits = cookie_str.split(/; ?/).map { |bit| bit.split('=') }
         jar.merge!(name => bits.inject({"value" => value}) { |h, (k,v)| h.merge!(k => v) })
       end

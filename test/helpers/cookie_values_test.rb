@@ -27,3 +27,19 @@ context "The cookie_values helper" do
     cookie_values["goo"]
   end.equals({"value" => "jam", "path" => "/blue", "expires" => "sometime-soon"})
 end # The cookie_values helper
+
+context "The cookie_values helper when no Set-Cookie" do
+  hookup do
+    stub_request(:get, 'http://foo/tossed-cookies').
+      to_return({
+        :status => 200,
+        :headers => {},
+        :body => ""
+      })
+  end
+
+  get "http://foo/tossed-cookies"
+
+  asserts("non-existent foo cookie") { cookie_values["foo"] }.nil
+  asserts("non-existent bar cookie") { cookie_values["bar"] }.nil
+end # The cookie_values helper
