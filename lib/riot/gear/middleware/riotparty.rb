@@ -82,7 +82,6 @@ private
     actionable_methods.each do |method_name|
 
       context_eigen.__send__(:define_method, method_name) do |*args, &settings_block|
-        #hookup do
         anything do
           if settings_block
             name = args.first
