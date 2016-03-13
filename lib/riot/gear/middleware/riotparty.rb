@@ -31,13 +31,14 @@ private
       if topic
         topic
       else
-        @saved_responses = {}
+        @saved_responses = []
+        @named_responses = {}
         Class.new { include HTTParty }
       end
     end
 
     context.helper(:response) do |name=nil|
-      @saved_responses[name] || @smoke_response
+      name.nil? ? @saved_responses.last : @named_responses[name]
     end
   end # setup_faux_class
 
@@ -92,8 +93,8 @@ private
             path, options = *args
           end
           result = topic.__send__(method_name, path, options || {})
-          @saved_responses[name] = result
-          @smoke_response = result # TODO remove this after it's certain no usages in the wild
+          @saved_responses += [result]
+          @named_responses[name] = result unless name.nil?
         end
       end
 
